@@ -1,11 +1,20 @@
-import * as fs from "node:fs";
-import * as path from "node:path";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
-const outputDir = "/output";
-const outputFile = path.join(outputDir, "entry.txt");
-const line =
-  "My AI wrote my apology letter; now my girlfriend is dating the AI.";
+const TARGET_DIR = "/output";
+const TARGET_FILE = join(TARGET_DIR, "entry.txt");
 
-fs.mkdirSync(outputDir, { recursive: true });
-fs.writeFileSync(outputFile, line, { encoding: "utf8" });
-console.log(`Wrote ${line.length} characters to ${outputFile}`);
+function buildEntry(): string {
+  const subject = "My AI";
+  const action = "wrote my apology letter";
+  const twist = "now my girlfriend is dating the AI.";
+  return `${subject} ${action}; ${twist}`;
+}
+
+const entryText = buildEntry();
+
+const charCount = entryText.length;
+
+mkdirSync(TARGET_DIR, { recursive: true });
+writeFileSync(TARGET_FILE, entryText, "utf8");
+console.log(`Wrote ${charCount} characters to ${TARGET_FILE}`);
